@@ -15,6 +15,19 @@ import { PlanWorkspace } from "@/components/plan/PlanWorkspace";
 import { Button } from "@/components/ui/Button";
 import { useUiStore } from "@/store/ui";
 
+function fireAnalyticsEvent(type: "ai_plan" | "ai_plan_error"): void {
+  if (typeof window === "undefined") return;
+  const sid = sessionStorage.getItem("saheli_sid") ?? undefined;
+  void fetch("/api/analytics/event", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify({ type, sessionId: sid }),
+  }).catch(() => {
+    /* ignore */
+  });
+}
+
 export default function PlanPage() {
   return (
     <Suspense fallback={<div className="py-16 text-center text-sm text-ink-muted">Opening planner…</div>}>
@@ -55,23 +68,32 @@ function PlanPageInner() {
       setPlanning(true);
       setPlanningText(null);
       let streamBuf = "";
-      const res = await ai.plan(
-        userText,
-        {
-          preferences: prefs,
-          memorySavedVenueIds: memoryVenues,
-          memorySavedThemeIds: memoryThemes,
-        },
-        {
-          signal,
-          onPlanEvent: (ev) => {
-            if (ev.type === "compose:token" || ev.type === "render:token") {
-              streamBuf += ev.text;
-              setPlanningText(streamBuf);
-            }
+      let res: Awaited<ReturnType<typeof ai.plan>>;
+      try {
+        res = await ai.plan(
+          userText,
+          {
+            preferences: prefs,
+            memorySavedVenueIds: memoryVenues,
+            memorySavedThemeIds: memoryThemes,
           },
-        },
-      );
+          {
+            signal,
+            onPlanEvent: (ev) => {
+              if (ev.type === "compose:token" || ev.type === "render:token") {
+                streamBuf += ev.text;
+                setPlanningText(streamBuf);
+              }
+            },
+          },
+        );
+        fireAnalyticsEvent("ai_plan");
+      } catch (e) {
+        fireAnalyticsEvent("ai_plan_error");
+        setPlanning(false);
+        setPlanningText(null);
+        throw e;
+      }
       setPlanning(false);
       setPlanningText(null);
       const assistantMsg: PlanMessage = {

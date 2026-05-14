@@ -36,4 +36,9 @@ npm run build
    - Optional: `OPENWEATHERMAP_API_KEY`, Supabase vars from `.env.example`.
 4. Redeploy after saving env vars.
 
+### Admin (optional)
+
+- Set **`SAHELI_ADMIN_SECRET`** (at least 8 characters) in Vercel and locally in `.env.local`.
+- Open **`/admin`** on your deployment, enter the secret once; you get **unique browser sessions**, **tab-load pings**, **AI chat** and **AI plan** counts, plus recent event lines. Counters live **in this server instance only** (they reset on cold start); upgrade later with Supabase or an analytics product for global numbers.
+
 Local secrets: copy `.env.example` to `.env.local` (git-ignored) for development.

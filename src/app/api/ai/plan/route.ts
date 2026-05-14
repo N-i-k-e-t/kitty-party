@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { recordAnalytics } from "@/lib/analytics/serverStore";
 import { clientIp, jsonError } from "@/lib/ai/api/shared";
 import { newRequestId } from "@/lib/ai/security/requestId";
 import { checkRateLimit, RATE_LIMITS } from "@/lib/ai/security/rateLimit";
@@ -57,7 +58,9 @@ export async function POST(req: Request): Promise<Response> {
           onPlanEvent: (e) => send(e),
         };
         await runOrchestratorPlan(body.prompt, ctx, deps);
+        recordAnalytics({ type: "ai_plan" });
       } catch (e) {
+        recordAnalytics({ type: "ai_plan_error" });
         send({ type: "error", message: e instanceof Error ? e.message : String(e) });
       } finally {
         controller.close();

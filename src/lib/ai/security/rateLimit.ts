@@ -84,4 +84,5 @@ export const RATE_LIMITS = {
   chat: { perIpPerMinute: 30, perIpPerHour: 120 } satisfies RateLimitRule,
   plan: { perIpPerMinute: 10, perIpPerHour: 60 } satisfies RateLimitRule,
   embed: { perIpPerMinute: 60 } satisfies RateLimitRule,
+  analytics: { perIpPerMinute: 120, perIpPerHour: 2000 } satisfies RateLimitRule,
 } as const;

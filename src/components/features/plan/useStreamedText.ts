@@ -72,6 +72,20 @@ export function useStreamedText() {
           }
         }
       }
+      if (buf.length > 0) {
+        const sid =
+          typeof window !== "undefined"
+            ? (sessionStorage.getItem("saheli_sid") ?? undefined)
+            : undefined;
+        void fetch("/api/analytics/event", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({ type: "ai_chat", sessionId: sid, meta: { chars: buf.length } }),
+        }).catch(() => {
+          /* ignore */
+        });
+      }
       return buf;
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
