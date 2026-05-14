@@ -10,6 +10,7 @@ type Stats = {
   planErrors: number;
   recentEvents: Array<{ ts: number; type: string; sessionId?: string; meta?: Record<string, unknown> }>;
   serverStartedAt: number;
+  uptimeMs: number;
   openrouterConfigured: boolean;
   siteUrl: string;
   nodeEnv: string;
@@ -23,6 +24,7 @@ export function AdminPanel() {
   const [loading, setLoading] = useState(false);
 
   const load = useCallback(async () => {
+    await Promise.resolve();
     setLoading(true);
     setErr(null);
     try {
@@ -111,7 +113,7 @@ export function AdminPanel() {
             <StatBox label="AI chats" value={stats.aiChats} />
             <StatBox label="AI plans" value={stats.aiPlans} />
             <StatBox label="Plan errors" value={stats.planErrors} />
-            <StatBox label="Uptime (ms)" value={Date.now() - stats.serverStartedAt} />
+            <StatBox label="Uptime (ms)" value={stats.uptimeMs} />
           </div>
           <div className="rounded-2xl border border-stroke-subtle bg-surface-raised p-saheli-16 text-body-sm">
             <p>

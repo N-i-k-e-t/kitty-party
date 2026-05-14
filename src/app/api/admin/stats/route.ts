@@ -17,6 +17,7 @@ export async function GET(): Promise<Response> {
     return jsonError(requestId, "unauthorized", "Admin session required.", 401);
   }
   const snap = getAnalyticsSnapshot();
+  const now = Date.now();
   const openrouterConfigured = Boolean(process.env.OPENROUTER_API_KEY?.trim());
   const site =
     process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
@@ -24,6 +25,7 @@ export async function GET(): Promise<Response> {
   return NextResponse.json(
     {
       ...snap,
+      uptimeMs: now - snap.serverStartedAt,
       openrouterConfigured,
       siteUrl: site,
       nodeEnv: process.env.NODE_ENV ?? "development",
