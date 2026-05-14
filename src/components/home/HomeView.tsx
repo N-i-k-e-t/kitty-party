@@ -51,7 +51,7 @@ export function HomeView() {
   const warn = weekend.precipChance > 0.45;
 
   return (
-    <div className="flex w-full flex-col gap-saheli-8">
+    <div className="flex w-full flex-col gap-saheli-16 sm:gap-saheli-20">
       <motion.div variants={fadeUpSoft} initial="hidden" animate="show">
         {warn ? (
           <AssistantTipBanner
@@ -70,8 +70,10 @@ export function HomeView() {
         )}
       </motion.div>
       <HeroGreeting />
-      <AssistantInputBar />
-      <SuggestionRail />
+      <div className="flex flex-col gap-saheli-20">
+        <AssistantInputBar />
+        <SuggestionRail />
+      </div>
       <QuickIdeas />
       <SeasonalCard />
       <NearbyVenueRail />

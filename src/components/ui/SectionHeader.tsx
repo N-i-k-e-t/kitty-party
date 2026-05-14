@@ -13,12 +13,12 @@ export function SectionHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("mb-saheli-12 flex items-end justify-between gap-saheli-12", className)}>
-      <div>
+    <div className={cn("mb-saheli-12 flex items-center justify-between gap-saheli-12", className)}>
+      <div className="min-w-0 flex-1 space-y-saheli-8">
         <h2 className="h-3 text-ink-strong">{title}</h2>
-        {subtitle ? <p className="body-sm mt-0.5 text-ink-muted">{subtitle}</p> : null}
+        {subtitle ? <p className="body-sm text-ink-muted">{subtitle}</p> : null}
       </div>
-      {action}
+      {action ? <div className="shrink-0">{action}</div> : null}
     </div>
   );
 }

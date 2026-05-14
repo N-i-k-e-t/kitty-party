@@ -1,83 +1,84 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
-type Stats = {
-  uniqueSessions: number;
-  totalPings: number;
-  aiChats: number;
-  aiPlans: number;
-  planErrors: number;
-  recentEvents: Array<{ ts: number; type: string; sessionId?: string; meta?: Record<string, unknown> }>;
-  serverStartedAt: number;
-  uptimeMs: number;
-  openrouterConfigured: boolean;
-  siteUrl: string;
-  nodeEnv: string;
-  note: string;
-};
+import { Button } from "@/components/ui/Button";
+import { Skeleton } from "@/components/ui/Skeleton";
+import type { AdminStatsDTO } from "@/lib/analytics/adminStatsTypes";
 
-export function AdminPanel() {
+async function fetchAdminStats(): Promise<AdminStatsDTO> {
+  const res = await fetch("/api/admin/stats", { credentials: "include" });
+  if (res.status === 401) {
+    throw new Error("Session expired. Sign in again.");
+  }
+  if (!res.ok) {
+    const j = (await res.json().catch(() => null)) as { error?: { message?: string } } | null;
+    throw new Error(j?.error?.message ?? res.statusText);
+  }
+  return (await res.json()) as AdminStatsDTO;
+}
+
+export function AdminPanel({ initialStats }: { initialStats: AdminStatsDTO | null }) {
+  const queryClient = useQueryClient();
+  const [session, setSession] = useState(Boolean(initialStats));
   const [secret, setSecret] = useState("");
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [err, setErr] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loginErr, setLoginErr] = useState<string | null>(null);
+  const [banner, setBanner] = useState<string | null>(null);
+  const [loginPending, setLoginPending] = useState(false);
+  const [logoutPending, setLogoutPending] = useState(false);
+  /** SSR stats are fresh at hydration; avoids an immediate refetch + “Refreshing…” flash. */
+  const [initialStatsHydratedAt] = useState<number | undefined>(() => (initialStats ? Date.now() : undefined));
 
-  const load = useCallback(async () => {
-    await Promise.resolve();
-    setLoading(true);
-    setErr(null);
-    try {
-      const res = await fetch("/api/admin/stats", { credentials: "include" });
-      if (res.status === 401) {
-        setStats(null);
-        setErr(null);
-        return;
-      }
-      if (!res.ok) {
-        const j = (await res.json().catch(() => null)) as { error?: { message?: string } } | null;
-        throw new Error(j?.error?.message ?? res.statusText);
-      }
-      setStats((await res.json()) as Stats);
-    } catch (e) {
-      setStats(null);
-      setErr(e instanceof Error ? e.message : String(e));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const id = window.setTimeout(() => {
-      void load();
-    }, 0);
-    return () => window.clearTimeout(id);
-  }, [load]);
+  const { data: stats, isFetching, error, refetch } = useQuery({
+    queryKey: ["admin", "stats"] as const,
+    queryFn: fetchAdminStats,
+    initialData: initialStats ?? undefined,
+    initialDataUpdatedAt: initialStatsHydratedAt,
+    enabled: session,
+    staleTime: 15_000,
+  });
 
   const login = async () => {
-    setErr(null);
-    const res = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ secret }),
-    });
-    if (!res.ok) {
-      const j = (await res.json().catch(() => null)) as { error?: { message?: string; code?: string } } | null;
-      setErr(j?.error?.message ?? "Login failed");
-      return;
+    setLoginErr(null);
+    setBanner(null);
+    setLoginPending(true);
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ secret }),
+      });
+      if (!res.ok) {
+        const j = (await res.json().catch(() => null)) as { error?: { message?: string; code?: string } } | null;
+        setLoginErr(j?.error?.message ?? "Login failed");
+        return;
+      }
+      setSecret("");
+      setSession(true);
+      await queryClient.invalidateQueries({ queryKey: ["admin", "stats"] });
+    } finally {
+      setLoginPending(false);
     }
-    setSecret("");
-    await load();
   };
 
   const logout = async () => {
-    await fetch("/api/admin/logout", { method: "POST", credentials: "include" });
-    setStats(null);
-    setErr("Signed out");
+    setLogoutPending(true);
+    try {
+      await fetch("/api/admin/logout", { method: "POST", credentials: "include" });
+      setSession(false);
+      queryClient.removeQueries({ queryKey: ["admin", "stats"] });
+      setBanner("Signed out");
+    } finally {
+      setLogoutPending(false);
+    }
   };
 
-  const authed = Boolean(stats);
+  const authed = Boolean(session && stats);
+  const queryError = error instanceof Error ? error.message : null;
+  const booting = Boolean(session && !stats && isFetching);
+  const refreshing = Boolean(session && stats && isFetching);
 
   return (
     <div className="mx-auto max-w-lg space-y-saheli-24 px-saheli-16 py-saheli-40 text-ink-body">
@@ -86,30 +87,63 @@ export function AdminPanel() {
         <p className="body-sm mt-saheli-8 text-ink-muted">Basic health and session counters (this server only).</p>
       </header>
 
-      {!authed && (
-        <div className="space-y-saheli-12 rounded-2xl border border-stroke-subtle bg-surface-raised p-saheli-20">
-          <label className="label block text-ink-muted">Admin secret</label>
+      {!session && (
+        <div
+          className="space-y-saheli-12 rounded-2xl border border-stroke-subtle bg-surface-raised p-saheli-20"
+          aria-busy={loginPending}
+        >
+          <label className="label block text-ink-muted" htmlFor="admin-secret">
+            Admin secret
+          </label>
           <input
+            id="admin-secret"
             type="password"
             autoComplete="off"
             value={secret}
             onChange={(e) => setSecret(e.target.value)}
-            className="w-full rounded-xl border border-stroke-subtle bg-surface-canvas px-saheli-12 py-saheli-12 text-body outline-none focus-visible:ring-2 focus-visible:ring-[var(--saheli-focus-ring)]"
+            disabled={loginPending}
+            className="w-full rounded-xl border border-stroke-subtle bg-surface-canvas px-saheli-12 py-saheli-12 text-body outline-none focus-visible:ring-2 focus-visible:ring-[var(--saheli-focus-ring)] disabled:opacity-60"
             placeholder="SAHELI_ADMIN_SECRET from Vercel"
           />
-          <button
+          <Button
             type="button"
+            size="md"
+            className="w-full rounded-full"
+            disabled={loginPending || !secret.trim()}
             onClick={() => void login()}
-            className="rounded-full bg-champagne-600 px-saheli-20 py-saheli-12 text-body font-medium text-white"
           >
-            Unlock dashboard
-          </button>
-          {err && <p className="body-sm text-rose-700">{err}</p>}
+            {loginPending ? "Unlocking…" : "Unlock dashboard"}
+          </Button>
+          {loginErr && <p className="body-sm text-rose-700">{loginErr}</p>}
+          {banner && <p className="body-sm text-ink-muted">{banner}</p>}
         </div>
+      )}
+
+      {booting && (
+        <section className="space-y-saheli-12" aria-live="polite" aria-busy="true">
+          <p className="body-sm text-ink-muted">Loading your dashboard…</p>
+          <div className="grid grid-cols-2 gap-saheli-12">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="space-y-saheli-8 rounded-2xl border border-stroke-subtle bg-surface-raised p-saheli-16"
+              >
+                <Skeleton className="h-3 w-2/3" />
+                <Skeleton className="h-8 w-1/2" />
+              </div>
+            ))}
+          </div>
+          <Skeleton className="h-24 w-full rounded-2xl" />
+        </section>
       )}
 
       {authed && stats && (
         <div className="space-y-saheli-16">
+          {refreshing && (
+            <p className="body-sm text-ink-muted" aria-live="polite">
+              Refreshing latest numbers…
+            </p>
+          )}
           <div className="grid grid-cols-2 gap-saheli-12">
             <StatBox label="Unique sessions" value={stats.uniqueSessions} />
             <StatBox label="Tab loads (pings)" value={stats.totalPings} />
@@ -146,26 +180,49 @@ export function AdminPanel() {
             </ul>
           </div>
           <div className="flex flex-wrap gap-saheli-12">
-            <button
+            <Button
               type="button"
-              onClick={() => void load()}
-              disabled={loading}
-              className="rounded-full border border-stroke-subtle px-saheli-16 py-saheli-10 text-body-sm"
+              variant="glass"
+              size="sm"
+              className="rounded-full"
+              onClick={() => void refetch()}
+              disabled={isFetching}
             >
-              Refresh
-            </button>
-            <button
+              {isFetching ? "Refreshing…" : "Refresh"}
+            </Button>
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
+              className="rounded-full border border-stroke-subtle"
               onClick={() => void logout()}
-              className="rounded-full border border-stroke-subtle px-saheli-16 py-saheli-10 text-body-sm"
+              disabled={logoutPending}
             >
-              Sign out
-            </button>
+              {logoutPending ? "Signing out…" : "Sign out"}
+            </Button>
           </div>
         </div>
       )}
 
-      {loading && <p className="body-sm text-ink-muted">Loading…</p>}
+      {session && !stats && !isFetching && queryError && (
+        <div className="space-y-saheli-12 rounded-2xl border border-stroke-subtle bg-surface-raised p-saheli-16">
+          <p className="body-sm text-rose-700" role="alert">
+            {queryError}
+          </p>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="rounded-full border border-stroke-subtle"
+            onClick={() => {
+              setSession(false);
+              queryClient.removeQueries({ queryKey: ["admin", "stats"] });
+            }}
+          >
+            Back to sign in
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

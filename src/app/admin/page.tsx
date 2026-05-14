@@ -1,3 +1,6 @@
+import { cookies } from "next/headers";
+
+import { buildAdminStatsDTO } from "@/lib/analytics/adminStats";
 import { AdminPanel } from "./AdminPanel";
 
 export const metadata = {
@@ -5,6 +8,8 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AdminPage() {
-  return <AdminPanel />;
+export default async function AdminPage() {
+  const jar = await cookies();
+  const initialStats = buildAdminStatsDTO(jar.get("saheli_admin")?.value);
+  return <AdminPanel initialStats={initialStats} />;
 }

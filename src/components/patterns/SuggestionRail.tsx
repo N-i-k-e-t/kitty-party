@@ -15,7 +15,7 @@ const DEFAULT_CHIPS = [
 export function SuggestionRail({ chips = DEFAULT_CHIPS }: { chips?: readonly string[] }) {
   const router = useRouter();
   return (
-    <div className="mb-saheli-24 -mx-saheli-4 flex gap-saheli-8 overflow-x-auto px-saheli-4 pb-saheli-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory">
+    <div className="mb-saheli-24 -mx-saheli-4 flex gap-saheli-8 overflow-x-auto px-saheli-4 pb-saheli-4 pt-saheli-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory">
       {chips.map((c) => (
         <Chip
           key={c}

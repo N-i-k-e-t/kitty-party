@@ -19,7 +19,7 @@ export function SideRail() {
   const pathname = usePathname();
   if (pathname.startsWith("/onboarding")) return null;
   return (
-    <aside className="sticky top-0 hidden h-dvh w-[220px] shrink-0 flex-col border-r border-stroke-subtle bg-surface-glass/80 px-saheli-12 py-saheli-24 backdrop-blur-md lg:flex">
+    <aside className="sticky top-0 hidden h-dvh w-[220px] shrink-0 flex-col border-r border-stroke-subtle bg-surface-glass/80 px-saheli-12 pt-saheli-24 pb-saheli-32 backdrop-blur-md lg:flex">
       <p className="label text-ink-muted">{t("app.name")}</p>
       <nav aria-label="Primary" className="mt-saheli-24 flex flex-1 flex-col gap-saheli-8">
         {items.map((it) => {
@@ -47,10 +47,10 @@ export function SideRail() {
           );
         })}
       </nav>
-      <footer className="mt-auto border-t border-stroke-subtle pt-saheli-16">
+      <footer className="mt-auto space-y-saheli-6 border-t border-stroke-subtle pt-saheli-20">
         <p className="font-display text-sm font-semibold text-ink-strong">{t("app.name")}</p>
         <p className="caption text-ink-muted">{t("app.tagline")}</p>
-        <p className="caption mt-1 text-ink-muted">v0.1</p>
+        <p className="caption text-ink-muted">v0.1</p>
       </footer>
     </aside>
   );

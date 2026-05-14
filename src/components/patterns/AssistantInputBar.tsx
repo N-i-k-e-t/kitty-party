@@ -36,7 +36,7 @@ export function AssistantInputBar() {
   }
 
   return (
-    <motion.section variants={withReducedMotion(fadeUpSoft)} initial="hidden" animate="show" className="mb-saheli-20">
+    <motion.section variants={withReducedMotion(fadeUpSoft)} initial="hidden" animate="show">
       <div className="relative overflow-hidden rounded-2xl glass p-saheli-8 shadow-elev-1">
         <div className="pointer-events-none absolute inset-0 rounded-2xl gradient-champagne-veil opacity-40" aria-hidden />
         <div className="relative flex items-center gap-saheli-8 rounded-xl bg-surface-glass/80 px-saheli-12 py-saheli-8">

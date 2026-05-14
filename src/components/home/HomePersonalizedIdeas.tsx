@@ -32,10 +32,10 @@ export function HomePersonalizedIdeas() {
               <div className="relative h-32 w-full overflow-hidden rounded-xl">
                 <Image src={idea.heroImage} alt={idea.title} fill className="object-cover" sizes="280px" />
               </div>
-              <div className="mt-2 px-1">
+              <div className="space-y-saheli-6 px-saheli-8 pb-saheli-14 pt-saheli-10">
                 <p className="font-serif text-sm font-semibold text-ink">{idea.title}</p>
                 <p className="text-[11px] text-ink-muted">{idea.subtitle}</p>
-                <p className="mt-2 text-[11px] font-medium text-ink-muted">
+                <p className="text-[11px] font-medium text-ink-muted">
                   Est. ₹{(idea.estimatedBudgetINR / 1000).toFixed(1)}k
                 </p>
               </div>
