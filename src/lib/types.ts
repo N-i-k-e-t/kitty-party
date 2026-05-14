@@ -77,6 +77,20 @@ export interface Festival {
   regionNote?: string;
 }
 
+export type AiModelTierPref = "cheap" | "balanced" | "premium";
+
+export interface UserPreferencesAi {
+  useWebLLM?: boolean;
+  useOllama?: boolean;
+  useTransformers?: boolean;
+  useExternal?: boolean;
+  useDirectOpenAI?: boolean;
+  useDirectAnthropic?: boolean;
+  useDirectGoogle?: boolean;
+  modelTier?: AiModelTierPref;
+  usePremiumModel?: boolean;
+}
+
 export interface UserPreferences {
   name: string;
   gatheringTypes: string[];
@@ -91,6 +105,7 @@ export interface UserPreferences {
   onboardingComplete: boolean;
   lat?: number;
   lng?: number;
+  ai?: UserPreferencesAi;
 }
 
 export interface GatheringIdea {
@@ -195,7 +210,7 @@ export interface SavedPlan {
     themeId?: string;
     venueIds: string[];
     budget?: BudgetResult;
-    gameIds: string[];
+    gameIds?: string[];
     invitation?: InvitationBundle;
     timeline?: string[];
   };
@@ -217,6 +232,10 @@ export interface MemoryState {
 export interface PlanResponse {
   message: string;
   cards: PlanRichCard[];
+  /** Non-fatal issues and soft degradations for the UI (never thrown). */
+  notes?: string[];
+  /** Short rationale lines keyed by venue id (optional enrichment). */
+  rationales?: Record<string, string>;
 }
 
 export interface WeatherDay {

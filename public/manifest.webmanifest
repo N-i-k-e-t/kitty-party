@@ -1,0 +1,17 @@
+{
+  "name": "Saheli — Gathering Planner",
+  "short_name": "Saheli",
+  "description": "Your personal social gathering planner for kitty parties and women’s circles.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFBF5",
+  "theme_color": "#E6C79C",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

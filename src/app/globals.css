@@ -1,26 +1,251 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "../styles/tokens.css";
+@import "../styles/typography.css";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Fonts — variables set on <html> via next/font */
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-display), ui-serif, Georgia, serif;
+
+  /* Legacy + semantic surfaces */
+  --color-ivory: var(--ivory);
+  --color-champagne: var(--champagne);
+  --color-champagne-deep: var(--champagne-deep);
+  --color-rose: var(--rose);
+  --color-rose-deep: var(--rose-deep);
+  --color-lavender: var(--lavender);
+  --color-peach-start: var(--peach-start);
+  --color-peach-end: var(--peach-end);
+  --color-warm-beige: var(--warm-beige);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-glass: var(--glass);
+
+  --color-surface-canvas: var(--surface-canvas);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-glass: var(--surface-glass);
+  --color-ink-strong: var(--ink-strong);
+  --color-ink-body: var(--ink-body);
+  --color-stroke-subtle: var(--stroke-subtle);
+  --color-stroke-strong: var(--stroke-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+
+  /* Ramps — rose / champagne / lavender / ink (Tailwind replaces default `rose` scale with Saheli brand) */
+  --color-rose-50: var(--saheli-rose-50);
+  --color-rose-100: var(--saheli-rose-100);
+  --color-rose-200: var(--saheli-rose-200);
+  --color-rose-300: var(--saheli-rose-300);
+  --color-rose-400: var(--saheli-rose-400);
+  --color-rose-500: var(--saheli-rose-500);
+  --color-rose-600: var(--saheli-rose-600);
+  --color-rose-700: var(--saheli-rose-700);
+  --color-rose-800: var(--saheli-rose-800);
+  --color-rose-900: var(--saheli-rose-900);
+
+  --color-champagne-50: var(--saheli-champagne-50);
+  --color-champagne-100: var(--saheli-champagne-100);
+  --color-champagne-200: var(--saheli-champagne-200);
+  --color-champagne-300: var(--saheli-champagne-300);
+  --color-champagne-400: var(--saheli-champagne-400);
+  --color-champagne-500: var(--saheli-champagne-500);
+  --color-champagne-600: var(--saheli-champagne-600);
+  --color-champagne-700: var(--saheli-champagne-700);
+  --color-champagne-800: var(--saheli-champagne-800);
+  --color-champagne-900: var(--saheli-champagne-900);
+
+  --color-lavender-50: var(--saheli-lavender-50);
+  --color-lavender-100: var(--saheli-lavender-100);
+  --color-lavender-200: var(--saheli-lavender-200);
+  --color-lavender-300: var(--saheli-lavender-300);
+  --color-lavender-400: var(--saheli-lavender-400);
+  --color-lavender-500: var(--saheli-lavender-500);
+  --color-lavender-600: var(--saheli-lavender-600);
+  --color-lavender-700: var(--saheli-lavender-700);
+  --color-lavender-800: var(--saheli-lavender-800);
+  --color-lavender-900: var(--saheli-lavender-900);
+
+  --color-ink-50: var(--saheli-ink-50);
+  --color-ink-100: var(--saheli-ink-100);
+  --color-ink-200: var(--saheli-ink-200);
+  --color-ink-300: var(--saheli-ink-300);
+  --color-ink-400: var(--saheli-ink-400);
+  --color-ink-500: var(--saheli-ink-500);
+  --color-ink-600: var(--saheli-ink-600);
+  --color-ink-700: var(--saheli-ink-700);
+  --color-ink-800: var(--saheli-ink-800);
+  --color-ink-900: var(--saheli-ink-900);
+
+  --color-ivory-50: var(--saheli-ivory-50);
+  --color-ivory-100: var(--saheli-ivory-100);
+  --color-ivory-200: var(--saheli-ivory-200);
+
+  --color-success-50: var(--saheli-success-50);
+  --color-success-100: var(--saheli-success-100);
+  --color-success-200: var(--saheli-success-200);
+  --color-success-500: var(--saheli-success-500);
+  --color-success-600: var(--saheli-success-600);
+  --color-success-700: var(--saheli-success-700);
+
+  --color-warning-50: var(--saheli-warning-50);
+  --color-warning-100: var(--saheli-warning-100);
+  --color-warning-200: var(--saheli-warning-200);
+  --color-warning-500: var(--saheli-warning-500);
+  --color-warning-600: var(--saheli-warning-600);
+  --color-warning-700: var(--saheli-warning-700);
+
+  --color-danger-50: var(--saheli-danger-50);
+  --color-danger-100: var(--saheli-danger-100);
+  --color-danger-200: var(--saheli-danger-200);
+  --color-danger-500: var(--saheli-danger-500);
+  --color-danger-600: var(--saheli-danger-600);
+  --color-danger-700: var(--saheli-danger-700);
+
+  --color-info-50: var(--saheli-info-50);
+  --color-info-100: var(--saheli-info-100);
+  --color-info-200: var(--saheli-info-200);
+  --color-info-500: var(--saheli-info-500);
+  --color-info-600: var(--saheli-info-600);
+  --color-info-700: var(--saheli-info-700);
+
+  /* Radii */
+  --radius-xs: var(--saheli-radius-xs);
+  --radius-sm: var(--saheli-radius-sm);
+  --radius-md: var(--saheli-radius-md);
+  --radius-lg: var(--saheli-radius-lg);
+  --radius-xl: var(--saheli-radius-xl);
+  --radius-2xl: var(--saheli-radius-2xl);
+  --radius-3xl: var(--saheli-radius-2xl);
+  --radius-pill: var(--saheli-radius-pill);
+
+  /* Shadows */
+  --shadow-soft: var(--shadow-soft);
+  --shadow-lift: var(--shadow-lift);
+  --shadow-elev-1: var(--shadow-elev-1);
+  --shadow-elev-2: var(--shadow-elev-2);
+  --shadow-elev-3: var(--shadow-elev-3);
+
+  /* Saheli spacing tokens (parallel to default scale) */
+  --spacing-saheli-2: var(--space-2);
+  --spacing-saheli-4: var(--space-4);
+  --spacing-saheli-6: var(--space-6);
+  --spacing-saheli-8: var(--space-8);
+  --spacing-saheli-12: var(--space-12);
+  --spacing-saheli-16: var(--space-16);
+  --spacing-saheli-20: var(--space-20);
+  --spacing-saheli-24: var(--space-24);
+  --spacing-saheli-32: var(--space-32);
+  --spacing-saheli-40: var(--space-40);
+  --spacing-saheli-56: var(--space-56);
+  --spacing-saheli-72: var(--space-72);
+  --spacing-saheli-96: var(--space-96);
+
+  /* Motion */
+  --ease-warm: var(--saheli-ease-warm);
+  --ease-soft: var(--saheli-ease-soft);
+  --duration-saheli-fast: var(--saheli-duration-fast);
+  --duration-saheli-base: var(--saheli-duration-base);
+  --duration-saheli-slow: var(--saheli-duration-slow);
+  --duration-saheli-dramatic: var(--saheli-duration-dramatic);
+
+  /* Backdrop blur presets */
+  --blur-glass-sm: var(--glass-blur-sm);
+  --blur-glass-md: var(--glass-blur-md);
+  --blur-glass-lg: var(--glass-blur-lg);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@utility font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    @apply min-h-dvh antialiased;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    color: var(--ink-body);
+    background-color: var(--surface-canvas);
+    background-image: var(--page-atmosphere);
+  }
+
+  h1,
+  h2 {
+    font-family: var(--font-display), ui-serif, Georgia, serif;
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--saheli-focus-ring);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .glass-panel {
+    background: color-mix(in srgb, var(--saheli-ivory-50) 58%, transparent);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-soft);
+    -webkit-backdrop-filter: blur(var(--glass-blur-md)) saturate(var(--glass-saturation));
+    backdrop-filter: blur(var(--glass-blur-md)) saturate(var(--glass-saturation));
+  }
+
+  .glass {
+    background: color-mix(in srgb, var(--surface-glass) calc(var(--glass-surface-alpha) * 100%), transparent);
+    border: 1px solid color-mix(in srgb, var(--saheli-champagne-400) calc(var(--glass-stroke-alpha) * 100%), transparent);
+    -webkit-backdrop-filter: blur(var(--glass-blur-md)) saturate(var(--glass-saturation));
+    backdrop-filter: blur(var(--glass-blur-md)) saturate(var(--glass-saturation));
+  }
+
+  .glass-strong {
+    background: color-mix(in srgb, var(--saheli-ivory-50) 78%, transparent);
+    border: 1px solid color-mix(in srgb, var(--saheli-champagne-500) 42%, transparent);
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-saturation));
+    backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-saturation));
+  }
+
+  .gradient-dawn {
+    background-image: var(--gradient-dawn);
+  }
+
+  .gradient-champagne-veil {
+    background-image: var(--gradient-champagne-veil);
+  }
+
+  .gradient-lavender-mist {
+    background-image: var(--gradient-lavender-mist);
+  }
+
+  .gradient-bollywood-twilight {
+    background-image: var(--gradient-bollywood-twilight);
+  }
+
+  .gradient-morning-tea {
+    background-image: var(--gradient-morning-tea);
+  }
+
+  .gradient-champagne-lavender {
+    background-image: var(--gradient-champagne-lavender);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.leaflet-container {
+  font-family: var(--font-sans), system-ui, sans-serif;
 }
