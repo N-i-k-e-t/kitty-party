@@ -29,10 +29,11 @@ npm run build
 
 1. Push this repo to GitHub (see remote below).
 2. In [Vercel](https://vercel.com): **Add New Project** → import `N-i-k-e-t/kitty-party` → Framework Preset **Next.js** → Deploy.
-3. In **Project → Settings → Environment Variables**, add at least:
-   - `OPENROUTER_API_KEY` — your server-side key (never use `NEXT_PUBLIC_` for this).
-   - `NEXT_PUBLIC_SITE_URL` — your production URL (e.g. `https://kitty-party.vercel.app`).
-   - Optional: `OPENROUTER_REFERRER` (same as site URL), `OPENWEATHERMAP_API_KEY`, Supabase vars from `.env.example`.
+3. In **Project → Settings → Environment Variables**, add at least (use **Production** and **Preview** as needed):
+   - `OPENROUTER_API_KEY` — paste from [OpenRouter → Keys](https://openrouter.ai/keys) (server-only; never `NEXT_PUBLIC_*` or commit to Git).
+   - `NEXT_PUBLIC_SITE_URL` — `https://kitty-party0.vercel.app` (your live URL).
+   - `OPENROUTER_REFERRER` — `https://kitty-party0.vercel.app` (matches OpenRouter’s optional referrer header).
+   - Optional: `OPENWEATHERMAP_API_KEY`, Supabase vars from `.env.example`.
 4. Redeploy after saving env vars.
 
 Local secrets: copy `.env.example` to `.env.local` (git-ignored) for development.
