@@ -1,0 +1,279 @@
+/* Saheli design tokens — single source of truth. Consumed by Tailwind @theme in globals.css */
+
+:root {
+  /* ── Ivory / canvas ── */
+  --saheli-ivory-50: #fffbf5;
+  --saheli-ivory-100: #fff9f0;
+  --saheli-ivory-200: #fff4e6;
+
+  /* ── Champagne ── */
+  --saheli-champagne-50: #fdf8f0;
+  --saheli-champagne-100: #faf1e4;
+  --saheli-champagne-200: #f3e4cc;
+  --saheli-champagne-300: #e8d4b0;
+  --saheli-champagne-400: #e6c79c;
+  --saheli-champagne-500: #d4af6a;
+  --saheli-champagne-600: #b8944f;
+  --saheli-champagne-700: #96763d;
+  --saheli-champagne-800: #6e5530;
+  --saheli-champagne-900: #4a3a22;
+
+  /* ── Rose ── */
+  --saheli-rose-50: #fdf5f5;
+  --saheli-rose-100: #fce8e8;
+  --saheli-rose-200: #f4c2c2;
+  --saheli-rose-300: #ecaeae;
+  --saheli-rose-400: #e8a5a5;
+  --saheli-rose-500: #d98a8a;
+  --saheli-rose-600: #b84d4d;
+  --saheli-rose-700: #953e3e;
+  --saheli-rose-800: #6e2d2d;
+  --saheli-rose-900: #451c1c;
+
+  /* ── Lavender ── */
+  --saheli-lavender-50: #f5f0fa;
+  --saheli-lavender-100: #efe6f5;
+  --saheli-lavender-200: #e4d6ef;
+  --saheli-lavender-300: #d8c6e6;
+  --saheli-lavender-400: #c4b0d9;
+  --saheli-lavender-500: #a995c8;
+  --saheli-lavender-600: #8b75b0;
+  --saheli-lavender-700: #6e5a91;
+  --saheli-lavender-800: #4f4268;
+  --saheli-lavender-900: #332b44;
+
+  /* ── Warm beige (single) ── */
+  --saheli-warm-beige: #f5e9da;
+
+  /* ── Maroon ink ── */
+  --saheli-ink-50: #f3eded;
+  --saheli-ink-100: #e8d9d9;
+  --saheli-ink-200: #d4b8b8;
+  --saheli-ink-300: #a67b7b;
+  --saheli-ink-400: #7a4e4e;
+  --saheli-ink-500: #5c3838;
+  --saheli-ink-600: #4a2c2c;
+  --saheli-ink-700: #3c1f1f;
+  --saheli-ink-800: #2a1518;
+  --saheli-ink-900: #1a0f10;
+
+  /* ── Semantic status ── */
+  --saheli-success-50: #eef7f0;
+  --saheli-success-100: #d9eede;
+  --saheli-success-200: #b6dcc0;
+  --saheli-success-500: #3a8f55;
+  --saheli-success-600: #2f6f44;
+  --saheli-success-700: #255838;
+
+  --saheli-warning-50: #fff8ec;
+  --saheli-warning-100: #ffefc8;
+  --saheli-warning-200: #f5dfa0;
+  --saheli-warning-500: #c98a12;
+  --saheli-warning-600: #a66f0c;
+  --saheli-warning-700: #7f5509;
+
+  --saheli-danger-50: #fdf2f2;
+  --saheli-danger-100: #fadcdc;
+  --saheli-danger-200: #f0b0b0;
+  --saheli-danger-500: #c43c3c;
+  --saheli-danger-600: #9e2f2f;
+  --saheli-danger-700: #7a2424;
+
+  --saheli-info-50: #f0f5fb;
+  --saheli-info-100: #dce8f5;
+  --saheli-info-200: #b8cfe8;
+  --saheli-info-500: #3b6ea5;
+  --saheli-info-600: #2f5884;
+  --saheli-info-700: #254468;
+
+  --saheli-focus-ring: 0 0 0 3px color-mix(in srgb, var(--saheli-champagne-500) 55%, transparent);
+
+  /* ── Role aliases (light / canonical) ── */
+  --surface-canvas: var(--saheli-ivory-50);
+  --surface-raised: var(--saheli-ivory-100);
+  --surface-glass: color-mix(in srgb, var(--saheli-ivory-50) 72%, transparent);
+  --ink-strong: var(--saheli-ink-800);
+  --ink-body: var(--saheli-ink-700);
+  --ink-muted: var(--saheli-ink-400);
+  --stroke-subtle: color-mix(in srgb, var(--saheli-champagne-500) 22%, transparent);
+  --stroke-strong: color-mix(in srgb, var(--saheli-ink-700) 18%, transparent);
+  --accent: var(--saheli-champagne-500);
+  --accent-soft: var(--saheli-champagne-200);
+  --brand: var(--saheli-rose-300);
+  --brand-soft: var(--saheli-rose-100);
+
+  /* ── Legacy flat names (backward compat) ── */
+  --ivory: var(--saheli-ivory-50);
+  --champagne: var(--saheli-champagne-400);
+  --champagne-deep: var(--saheli-champagne-500);
+  --rose: var(--saheli-rose-200);
+  --rose-deep: var(--saheli-rose-400);
+  --lavender: var(--saheli-lavender-300);
+  --peach-start: #ffe8dc;
+  --peach-end: var(--saheli-warm-beige);
+  --warm-beige: var(--saheli-warm-beige);
+  --ink: var(--saheli-ink-700);
+  --ink-muted: var(--saheli-ink-400);
+  --glass: color-mix(in srgb, var(--saheli-ivory-50) 58%, transparent);
+  --glass-border: color-mix(in srgb, var(--saheli-champagne-400) 45%, transparent);
+
+  /* ── Named gradients (app use; reference in spec) ── */
+  --gradient-dawn: linear-gradient(180deg, var(--saheli-ivory-50) 0%, var(--peach-start) 42%, var(--saheli-rose-200) 100%);
+  --gradient-champagne-veil: linear-gradient(
+    180deg,
+    var(--saheli-champagne-100) 0%,
+    color-mix(in srgb, var(--saheli-ivory-50) 60%, transparent) 100%
+  );
+  --gradient-lavender-mist: linear-gradient(180deg, var(--saheli-lavender-100) 0%, var(--saheli-ivory-50) 100%);
+  --gradient-bollywood-twilight: linear-gradient(135deg, var(--saheli-rose-400) 0%, var(--saheli-ink-800) 100%);
+  --gradient-morning-tea: linear-gradient(180deg, var(--saheli-warm-beige) 0%, var(--saheli-ivory-50) 100%);
+  --gradient-champagne-lavender: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--saheli-champagne-400) 80%, transparent) 0%,
+    color-mix(in srgb, var(--saheli-lavender-300) 50%, transparent) 100%
+  );
+
+  /* ── Radii (canonical names; Tailwind maps from globals @theme) ── */
+  --saheli-radius-xs: 8px;
+  --saheli-radius-sm: 12px;
+  --saheli-radius-md: 16px;
+  --saheli-radius-lg: 20px;
+  --saheli-radius-xl: 22px;
+  --saheli-radius-2xl: 36px;
+  --saheli-radius-pill: 9999px;
+
+  /* ── Spacing scale (px-based rem) ── */
+  --space-2: 0.125rem;
+  --space-4: 0.25rem;
+  --space-6: 0.375rem;
+  --space-8: 0.5rem;
+  --space-12: 0.75rem;
+  --space-16: 1rem;
+  --space-20: 1.25rem;
+  --space-24: 1.5rem;
+  --space-32: 2rem;
+  --space-40: 2.5rem;
+  --space-56: 3.5rem;
+  --space-72: 4.5rem;
+  --space-96: 6rem;
+
+  /* ── Elevation (app surfaces; subtle) ── */
+  --elev-shadow-soft: 0 18px 60px color-mix(in srgb, var(--saheli-ink-700) 8%, transparent);
+  --elev-shadow-lift: 0 12px 40px color-mix(in srgb, var(--saheli-ink-700) 12%, transparent);
+  --elev-0-border: 1px solid var(--stroke-subtle);
+  --elev-1-surface: var(--surface-raised);
+  --elev-1-border: 1px solid color-mix(in srgb, var(--saheli-champagne-500) 28%, transparent);
+  --elev-1-shadow: 0 1px 0 color-mix(in srgb, #fff 55%, transparent) inset, 0 8px 24px color-mix(in srgb, var(--saheli-ink-700) 6%, transparent);
+  --elev-2-surface: var(--saheli-ivory-100);
+  --elev-2-border: 1px solid color-mix(in srgb, var(--saheli-ink-700) 12%, transparent);
+  --elev-2-shadow: 0 1px 0 color-mix(in srgb, #fff 40%, transparent) inset, 0 10px 28px color-mix(in srgb, var(--saheli-ink-700) 8%, transparent);
+  --elev-3-surface: #fff;
+  --elev-3-border: 1px solid color-mix(in srgb, var(--saheli-champagne-500) 35%, transparent);
+  --elev-3-shadow: 0 1px 0 color-mix(in srgb, #fff 70%, transparent) inset, 0 14px 36px color-mix(in srgb, var(--saheli-ink-700) 10%, transparent);
+
+  --shadow-soft: var(--elev-shadow-soft);
+  --shadow-lift: var(--elev-shadow-lift);
+  --shadow-elev-1: var(--elev-1-shadow);
+  --shadow-elev-2: var(--elev-2-shadow);
+  --shadow-elev-3: var(--elev-3-shadow);
+
+  /* ── Glass ── */
+  --glass-blur-sm: 12px;
+  --glass-blur-md: 18px;
+  --glass-blur-lg: 28px;
+  --glass-surface-alpha: 0.62;
+  --glass-stroke-alpha: 0.38;
+  --glass-saturation: 1.12;
+
+  /* ── Typography (font families come from next/font on html: --font-display, --font-sans) ── */
+  /* Mobile-first typography scale with responsive adjustments */
+
+  --text-display: 2rem;
+  --text-display--line: 1.08;
+  --text-display--letter: -0.02em;
+  --text-display--weight: 600;
+
+  --text-h1: 1.75rem;
+  --text-h1--line: 1.12;
+  --text-h1--letter: -0.02em;
+  --text-h1--weight: 600;
+
+  --text-h2: 1.5rem;
+  --text-h2--line: 1.2;
+  --text-h2--letter: -0.015em;
+  --text-h2--weight: 600;
+
+  --text-h3: 1.125rem;
+  --text-h3--line: 1.35;
+  --text-h3--letter: -0.01em;
+  --text-h3--weight: 600;
+
+  --text-title: 1rem;
+  --text-title--line: 1.4;
+  --text-title--letter: 0;
+  --text-title--weight: 600;
+
+  --text-body: 0.9375rem;
+  --text-body--line: 1.55;
+  --text-body--letter: 0;
+  --text-body--weight: 400;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line: 1.5;
+  --text-body-sm--letter: 0;
+  --text-body-sm--weight: 400;
+
+  --text-caption: 0.75rem;
+  --text-caption--line: 1.45;
+  --text-caption--letter: 0.01em;
+  --text-caption--weight: 400;
+
+  --text-label: 0.6875rem;
+  --text-label--line: 1.35;
+  --text-label--letter: 0.08em;
+  --text-label--weight: 600;
+
+  --text-mono: 0.8125rem;
+  --text-mono--line: 1.45;
+  --text-mono--letter: 0;
+  --text-mono--weight: 400;
+}
+
+/* Tablet+ typography scaling for better readability on larger screens */
+@media (min-width: 640px) {
+  :root {
+    --text-display: 3rem;
+    --text-h1: 2.25rem;
+  }
+}
+
+:root {
+  /* ── Motion tokens ── */
+  --saheli-ease-warm: cubic-bezier(0.22, 1, 0.36, 1);
+  --saheli-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --saheli-duration-fast: 140ms;
+  --saheli-duration-base: 240ms;
+  --saheli-duration-slow: 380ms;
+  --saheli-duration-dramatic: 560ms;
+
+  /* Page atmosphere (optional body layer) */
+  --page-atmosphere: radial-gradient(1200px 600px at 10% -10%, color-mix(in srgb, var(--saheli-rose-200) 35%, transparent) 0%, transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, color-mix(in srgb, var(--saheli-lavender-200) 40%, transparent) 0%, transparent 50%),
+    linear-gradient(180deg, var(--saheli-ivory-50) 0%, color-mix(in srgb, var(--saheli-warm-beige) 55%, var(--saheli-ivory-50)) 100%);
+}
+
+/* dark mode deferred — see design-system canvas section 15 */
+html[data-theme="dark"] {
+  --surface-canvas: #1a1014;
+  --surface-raised: #22181c;
+  --surface-glass: color-mix(in srgb, #1a1014 78%, transparent);
+  --ink-strong: #f3eded;
+  --ink-body: #e8d9d9;
+  --ink-muted: #a67b7b;
+  --stroke-subtle: color-mix(in srgb, #d4af6a 25%, transparent);
+  --stroke-strong: color-mix(in srgb, #f3eded 22%, transparent);
+  --accent: #e6c79c;
+  --accent-soft: color-mix(in srgb, #e6c79c 28%, transparent);
+  --brand: #f4c2c2;
+  --brand-soft: color-mix(in srgb, #f4c2c2 22%, transparent);
+}

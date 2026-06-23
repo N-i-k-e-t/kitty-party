@@ -1,0 +1,82 @@
+/* Saheli type scale — Playfair for display headings; Inter via body */
+
+.h-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-size: var(--text-display);
+  line-height: var(--text-display--line);
+  letter-spacing: var(--text-display--letter);
+  font-weight: var(--text-display--weight);
+}
+
+.h-1 {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-size: var(--text-h1);
+  line-height: var(--text-h1--line);
+  letter-spacing: var(--text-h1--letter);
+  font-weight: var(--text-h1--weight);
+}
+
+.h-2 {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line);
+  letter-spacing: var(--text-h2--letter);
+  font-weight: var(--text-h2--weight);
+}
+
+.h-3 {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line);
+  letter-spacing: var(--text-h3--letter);
+  font-weight: var(--text-h3--weight);
+}
+
+.title {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-title);
+  line-height: var(--text-title--line);
+  letter-spacing: var(--text-title--letter);
+  font-weight: var(--text-title--weight);
+}
+
+.body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line);
+  letter-spacing: var(--text-body--letter);
+  font-weight: var(--text-body--weight);
+}
+
+.body-sm {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-body-sm);
+  line-height: var(--text-body-sm--line);
+  letter-spacing: var(--text-body-sm--letter);
+  font-weight: var(--text-body-sm--weight);
+}
+
+.caption {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line);
+  letter-spacing: var(--text-caption--letter);
+  font-weight: var(--text-caption--weight);
+}
+
+.label {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: var(--text-label);
+  line-height: var(--text-label--line);
+  letter-spacing: var(--text-label--letter);
+  font-weight: var(--text-label--weight);
+  text-transform: uppercase;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: var(--text-mono);
+  line-height: var(--text-mono--line);
+  letter-spacing: var(--text-mono--letter);
+  font-weight: var(--text-mono--weight);
+}
